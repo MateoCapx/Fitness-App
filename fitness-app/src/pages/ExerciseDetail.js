@@ -1,7 +1,11 @@
 import React from "react";
 
 const ExerciseDetails = () => {
-  return <div>ExerciseDetails</div>;
+  return (
+    <div>
+      <h1>ExerciseDetails</h1>
+    </div>
+  );
 };
 
 export default ExerciseDetails;
