@@ -57,8 +57,8 @@ body {
   right: 40px;
   top: 0px;
   width: 700px;
-  height: 900px;
-  margin-top: -330px;
+  height: 700px;
+  margin-top: -300px;
 }
 
 .exercise-card {
@@ -119,9 +119,9 @@ body {
     position: static !important;
   }
 
-  .hero-banner-img {
+  /* .hero-banner-img {
     display: none;
-  }
+  } */
 
   .exercise-card {
     width: 320px;
