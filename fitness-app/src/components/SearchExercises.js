@@ -2,14 +2,30 @@
 
 import React, { useEffect, useState } from "react";
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
+import { fetchData, exerciseOptions } from "../utils/fetchData";
 
 const SearchExercises = () => {
   const [search, setSearch] = useState("");
   // Current State: The current value of the state (search).
   // State Setter Function: A function to update the state (setSearch).
+
   const handleSearch = async () => {
     if (search) {
-      // const exerciseData = await fetchData
+      const exerciseData = await fetchData(
+        "https://exercisedb.p.rapidapi.com/exercises?limit=25&offset=0",
+        exerciseOptions
+      );
+
+      // ____________ Filter to search different exercises ____________
+      const searchedExercises = exerciseData.filter(
+        (item) =>
+          item.name.toLowerCase().includes(search) ||
+          item.target.toLowerCase().includes(search) ||
+          item.equipment.toLowerCase().includes(search) ||
+          item.bodyPart.toLowerCase().includes(search)
+      );
+
+      console.log(exerciseData);
     }
   };
 
