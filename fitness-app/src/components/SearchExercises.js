@@ -1,13 +1,29 @@
-/* State data that changes with time */
+/* State is data that changes with time */
 
 import React, { useEffect, useState } from "react";
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import { fetchData, exerciseOptions } from "../utils/fetchData";
+import { HorizontalScrollbar } from "./HorizontalScrollbar";
 
-const SearchExercises = () => {
-  const [search, setSearch] = useState("");
+const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
+  const [search, setSearch] = useState(" ");
   // Current State: The current value of the state (search).
   // State Setter Function: A function to update the state (setSearch).
+
+  const [bodyParts, setBodyParts] = useState([]);
+
+  useEffect(() => {
+    const fetchExerciseData = async () => {
+      const bodyPartData = await fetchData(
+        "https://exercisedb.p.rapidapi.com/exercises/bodyPartList",
+        exerciseOptions
+      );
+
+      setBodyParts(["all", ...bodyPartData]);
+    };
+
+    fetchExerciseData();
+  }, []);
 
   const handleSearch = async () => {
     if (search) {
@@ -19,11 +35,14 @@ const SearchExercises = () => {
       // ____________ Filter to search different exercises ____________
       const searchedExercises = exerciseData.filter(
         (item) =>
-          item.name.toLowerCase().includes(search) ||
+          item.name.toLowerCase().includes(search) || // <--- This combination is often used to check if a string contains a certain substring, regardless of the case.
           item.target.toLowerCase().includes(search) ||
           item.equipment.toLowerCase().includes(search) ||
           item.bodyPart.toLowerCase().includes(search)
       );
+
+      setSearch(""); // <-- this code Clears the search bar
+      setSearch(JSON.stringify(searchedExercises));
 
       console.log(exerciseData);
     }
@@ -82,6 +101,23 @@ const SearchExercises = () => {
           Search
         </Button>
         {/* ___________________________________________________________ */}
+      </Box>
+
+      <Box
+        sx={{
+          position: "relative",
+          width: "100%",
+          p: "20px",
+        }}
+      >
+        <h2> help</h2>
+
+        <HorizontalScrollbar
+          data={bodyParts}
+          bodyParts
+          setBodyPart={setBodyPart}
+          bodyPart={bodyPart}
+        />
       </Box>
     </Stack>
   );
